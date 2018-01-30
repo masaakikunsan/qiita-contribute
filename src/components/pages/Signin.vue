@@ -1,3 +1,7 @@
+<template lang="html">
+  <div />
+</template>
+
 <script>
 import queryString from 'query-string'
 import axios from 'axios'
