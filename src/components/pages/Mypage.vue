@@ -2,6 +2,9 @@
   <div class="content">
     <h1>Contribute</h1>
     <div id="cal-heatmap"></div>
+    <h2>アップロード可能容量</h2>
+    <p>アップロード可能総容量: {{userData.image_monthly_upload_limit}}</p>
+    <p>アップロード可能残容量: {{userData.image_monthly_upload_remaining}}</p>
   </div>
 </template>
 
@@ -15,7 +18,8 @@ export default {
     return {
       postReport: '',
       seconds: '',
-      contribute: {}
+      contribute: {},
+      userData: ''
     }
   },
   mounted () {
@@ -27,8 +31,10 @@ export default {
           this.contribute[this.seconds] = res.data[key].comments_count + res.data[key].likes_count
         })
         this.calInit()
-      })
-      .catch(err => {
+        return axios.get('https://qiita.com/api/v2/authenticated_user', { headers: { 'Authorization': `Bearer ${localStorage.token}` } })
+      }).then(res => {
+        this.userData = Object.assign({}, res.data)
+      }).catch(err => {
         console.log(err)
       })
   },
@@ -56,5 +62,9 @@ export default {
 
   h1 {
     margin-bottom: 30px;
+  }
+
+  h2 {
+    margin-top: 50px;
   }
 </style>
